@@ -19,12 +19,9 @@ export async function POST(request: Request) {
         // Retry fetch with exponential backoff
         const data = await retryWithBackoff(
           async () => {
-            const response = await fetch(`https://old.reddit.com/r/${subreddit}/hot.json?limit=10`, {
-              headers: {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-                'Accept': 'application/json'
-              }
-            })
+            const redditUrl = `https://www.reddit.com/r/${subreddit}/hot.json?limit=10`
+            const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(redditUrl)}`
+            const response = await fetch(proxyUrl)
 
             if (!response.ok) {
               const error: any = new Error(`Reddit API returned ${response.status}`)
