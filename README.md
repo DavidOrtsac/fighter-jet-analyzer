@@ -2,7 +2,7 @@
 
 This is my LLM-powered sentiment analysis pipeline. The goal is to scrape information from four different fighter jet-related subreddits. I'm an aviation enthusiast, so I figured that for this challenge, I might as well scrape r/FighterJets, r/aviation, r/WarplanePorn, and r/hoggit. This pipeline uses Reddit JSON as the scraper (which is completely free). Then, it runs Supabase INSERT to store raw data, Supabase SELECT to get pending records, Supabase UPDATE to lock as processing, and then runs a batch analysis using OpenAI's affordable gpt-4o-mini model, before the dispositions (or sentiments) are sent back to Supabase, and then the UI is refreshed.
 
-🔗 **Live Demo:** [your-vercel-url]  
+🔗 **Live Demo:** https://fighter-jet-analyzer.vercel.app/ 
 
 ---
 

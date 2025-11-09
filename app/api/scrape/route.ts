@@ -19,15 +19,10 @@ export async function POST(request: Request) {
         // Retry fetch with exponential backoff
         const data = await retryWithBackoff(
           async () => {
-            const redditUrl = `https://www.reddit.com/r/${subreddit}/hot.json?limit=10`
-            const isProduction = process.env.VERCEL === '1'
-            const finalUrl = isProduction 
-              ? `https://api.allorigins.win/raw?url=${encodeURIComponent(redditUrl)}`
-              : redditUrl
-
-            const response = await fetch(finalUrl, {
-              headers: isProduction ? {} : {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+            const rssUrl = `https://www.reddit.com/r/${subreddit}/.rss?limit=10`
+            const response = await fetch(rssUrl, {
+              headers: {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
               }
             })
 
@@ -37,7 +32,26 @@ export async function POST(request: Request) {
               throw error
             }
 
-            return await response.json()
+            const xml = await response.text()
+            const entries = xml.match(/<entry>[\s\S]*?<\/entry>/g) || []
+            
+            const posts = entries.map(entry => {
+              const title = entry.match(/<title>(.*?)<\/title>/)?.[1] || ''
+              const content = entry.match(/<content type="html"><!\[CDATA\[([\s\S]*?)\]\]><\/content>/)?.[1] || ''
+              const author = entry.match(/<name>(.*?)<\/name>/)?.[1] || 'unknown'
+              
+              const cleanContent = content
+                .replace(/<[^>]*>/g, '')
+                .replace(/&lt;/g, '<')
+                .replace(/&gt;/g, '>')
+                .replace(/&amp;/g, '&')
+                .replace(/&quot;/g, '"')
+                .trim()
+              
+              return { title, selftext: cleanContent, author }
+            })
+
+            return { data: { children: posts.map(p => ({ data: p })) } }
           },
           {
             maxRetries: 3,
