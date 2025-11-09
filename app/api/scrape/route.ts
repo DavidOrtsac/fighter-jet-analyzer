@@ -21,7 +21,7 @@ export async function POST(request: Request) {
           async () => {
             const response = await fetch(`https://www.reddit.com/r/${subreddit}/hot.json?limit=10`, {
               headers: {
-                'User-Agent': 'FighterJetAnalyzer/1.0'
+                'User-Agent': 'Mozilla/5.0 (compatible; AviationSentimentBot/1.0; +https://fighter-jet-analyzer.vercel.app)'
               }
             })
 
