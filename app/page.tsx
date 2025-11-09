@@ -170,8 +170,11 @@ export default function Home() {
           <h1 className="text-5xl font-bold mb-2 bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
             ✈️ Fighter Jet Analyzer
           </h1>
-          <p className="text-gray-600 mb-6">
+          <p className="text-gray-600 mb-2">
             Analyzing aviation discussions from Reddit with AI-powered sentiment analysis
+          </p>
+          <p className="text-sm text-gray-500 mb-6">
+            by <span className="font-semibold text-gray-700">David Alfonso Castro</span>
           </p>
           
           <div className="flex gap-3 flex-wrap">
