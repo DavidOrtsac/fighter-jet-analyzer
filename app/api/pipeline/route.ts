@@ -2,11 +2,9 @@ import { NextResponse } from 'next/server'
 
 export async function POST(request: Request) {
   try {
-    // Get the base URL - use request headers in development
-    let baseUrl = process.env.NEXT_PUBLIC_BASE_URL
+    let baseUrl = process.env.BASE_URL
     
     if (!baseUrl) {
-      // Fallback: extract from request
       const host = request.headers.get('host') || 'localhost:3000'
       const protocol = host.includes('localhost') ? 'http' : 'https'
       baseUrl = `${protocol}://${host}`
