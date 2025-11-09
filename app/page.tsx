@@ -171,7 +171,7 @@ export default function Home() {
             Aviation Discussions Sentiment Analysis
           </h1>
           <p className="text-gray-600 mb-2">
-          This is my LLM-powered sentiment analysis pipeline. The goal is to scrape information from four different fighter jet-related subreddits. I'm a big aviation geek, so I figured that for this challenge, I might as well scrape r/FighterJets, r/aviation, r/WarplanePorn, and r/hoggit. This pipeline uses Reddit JSON as the scraper (which is completely free). Then, it runs Supabase INSERT to store raw data, Supabase SELECT to get pending records, Supanase UPDATE to lock as processing, and then runs a batch analysis using OpenAI's affordable gpt-4o-mini model, before the dispositions (or sentiments) are sent back to Supabase, and then the UI is refreshed.
+          This is my LLM-powered sentiment analysis pipeline. The goal is to scrape information from four different fighter jet-related subreddits. I'm an aviation enthusiast, so I figured that for this challenge, I might as well scrape r/FighterJets, r/aviation, r/WarplanePorn, and r/hoggit. This pipeline uses Reddit JSON as the scraper (which is completely free). Then, it runs Supabase INSERT to store raw data, Supabase SELECT to get pending records, Supabase UPDATE to lock as processing, and then runs a batch analysis using OpenAI's affordable gpt-4o-mini model, before the dispositions (or sentiments) are sent back to Supabase, and then the UI is refreshed.
           </p>
           <p className="text-sm text-gray-500 mb-6">
             by <span className="font-semibold text-gray-700">David Alfonso Castro</span>
