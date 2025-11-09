@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Fighter Jet Analyzer | AI-Powered Aviation Discussion Analysis",
-  description: "Analyze fighter jet discussions from Reddit using Apify, OpenAI, and Supabase. Real-time sentiment analysis of aviation and military aircraft content.",
+  description: "Analyze fighter jet discussions from Reddit using OpenAI and Supabase. Real-time sentiment analysis of aviation and military aircraft content.",
 };
 
 export default function RootLayout({

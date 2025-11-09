@@ -15,7 +15,7 @@ export async function POST(request: Request) {
     console.log('Starting data pipeline with base URL:', baseUrl)
 
     // Step 1: Scrape data from Reddit
-    console.log('Step 1: Scraping data from Apify...')
+    console.log('Step 1: Scraping data from Reddit...')
     const scrapeRes = await fetch(`${baseUrl}/api/scrape`, { 
       method: 'POST',
       headers: {
@@ -33,7 +33,7 @@ export async function POST(request: Request) {
 
     // Check for partial failures in scraping
     if (scrapeData.warning) {
-      console.warn('⚠️ Scrape warning:', scrapeData.warning)
+      console.warn('Scrape warning:', scrapeData.warning)
     }
 
     // Wait a bit for data to settle in the database

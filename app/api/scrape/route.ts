@@ -6,7 +6,7 @@ export async function POST(request: Request) {
   try {
     console.log('Starting Reddit scrape using public JSON API...')
 
-    // Use Reddit's free public JSON API - no authentication needed!
+    // Use Reddit's free public JSON API, no authentication needed 
     const subreddits = ['FighterJets', 'aviation', 'WarplanePorn', 'hoggit']
     const allPosts: any[] = []
     const errors: string[] = []
@@ -53,13 +53,13 @@ export async function POST(request: Request) {
           num_comments: post.num_comments || 0,
         })))
 
-        console.log(`✓ Fetched ${posts.length} posts from r/${subreddit}`)
+        console.log(`Fetched ${posts.length} posts from r/${subreddit}`)
         
         // Be nice to Reddit - small delay between requests
         await new Promise(resolve => setTimeout(resolve, 1000))
       } catch (error: any) {
         const errorMsg = `Failed to fetch r/${subreddit} after 3 retries: ${error.message}`
-        console.error(`✗ ${errorMsg}`)
+        console.error(errorMsg)
         errors.push(errorMsg)
         // Continue with other subreddits even if one fails
       }

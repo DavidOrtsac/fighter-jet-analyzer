@@ -63,7 +63,7 @@ export default function Home() {
       
       // Show success with any warnings
       if (data.warnings && data.warnings.length > 0) {
-        toast.success(`${data.summary}\n⚠️ ${data.warnings.join(', ')}`, { 
+        toast.success(`${data.summary}\nWarning: ${data.warnings.join(', ')}`, { 
           id: loadingToast,
           duration: 5000 
         })
@@ -74,7 +74,7 @@ export default function Home() {
       // Refresh data
       await fetchRecords()
     } catch (error: any) {
-      toast.error(`❌ Pipeline failed: ${error.message}`, { 
+      toast.error(`Pipeline failed: ${error.message}`, { 
         id: loadingToast,
         duration: 6000 
       })
@@ -168,10 +168,10 @@ export default function Home() {
       <div className="max-w-6xl mx-auto p-8">
         <header className="mb-8">
           <h1 className="text-5xl font-bold mb-2 bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
-            ✈️ Fighter Jet Analyzer
+            Aviation Discussions Sentiment Analysis
           </h1>
           <p className="text-gray-600 mb-2">
-            Analyzing aviation discussions from Reddit with AI-powered sentiment analysis
+          This is my LLM-powered sentiment analysis pipeline. The goal is to scrape information from four different fighter jet-related subreddits. I'm a big aviation geek, so I figured that for this challenge, I might as well scrape r/FighterJets, r/aviation, r/WarplanePorn, and r/hoggit. This pipeline uses Reddit JSON as the scraper (which is completely free). Then, it runs Supabase INSERT to store raw data, Supabase SELECT to get pending records, Supanase UPDATE to lock as processing, and then runs a batch analysis using OpenAI's affordable gpt-4o-mini model, before the dispositions (or sentiments) are sent back to Supabase, and then the UI is refreshed.
           </p>
           <p className="text-sm text-gray-500 mb-6">
             by <span className="font-semibold text-gray-700">David Alfonso Castro</span>
@@ -183,7 +183,7 @@ export default function Home() {
               disabled={running}
               className="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors shadow-md"
             >
-              {running ? '⏳ Running Pipeline...' : '🚀 Run Data Pipeline'}
+              {running ? 'Running Pipeline...' : 'Run Data Pipeline'}
             </button>
             
             {failedCount > 0 && (
@@ -192,7 +192,7 @@ export default function Home() {
                 disabled={retrying}
                 className="bg-orange-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-orange-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors shadow-md"
               >
-                {retrying ? '⏳ Retrying...' : `🔄 Retry Failed (${failedCount})`}
+                {retrying ? 'Retrying...' : `Retry Failed (${failedCount})`}
               </button>
             )}
             
@@ -201,7 +201,7 @@ export default function Home() {
               disabled={loading}
               className="bg-gray-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-gray-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors shadow-md"
             >
-              {loading ? '⏳ Loading...' : '🔄 Refresh'}
+              {loading ? 'Loading...' : 'Refresh'}
             </button>
 
             <button
@@ -209,19 +209,19 @@ export default function Home() {
               disabled={clearing}
               className="bg-red-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-red-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors shadow-md"
             >
-              {clearing ? '⏳ Clearing...' : '🗑️ Clear All Data'}
+              {clearing ? 'Clearing...' : 'Clear All Data'}
             </button>
           </div>
         </header>
 
         {loading && records.length === 0 ? (
           <div className="text-center py-12">
-            <div className="animate-spin text-6xl mb-4">⏳</div>
+            <div className="animate-spin text-6xl mb-4">Loading...</div>
             <p className="text-gray-600">Loading data...</p>
           </div>
         ) : records.length === 0 ? (
           <div className="text-center py-12 bg-white rounded-lg shadow-md">
-            <div className="text-6xl mb-4">📭</div>
+            <div className="text-6xl mb-4">No Data</div>
             <p className="text-gray-600 text-lg mb-4">No data yet</p>
             <p className="text-gray-500">Click "Run Data Pipeline" to start scraping and analyzing fighter jet discussions!</p>
           </div>
@@ -236,7 +236,7 @@ export default function Home() {
                 <div className="flex justify-between items-start mb-3">
                   <div className="flex items-center gap-2">
                     <span className="text-sm font-medium text-gray-500">
-                      📍 {record.source}
+                      {record.source}
                     </span>
                     <span className={`text-xs px-2 py-1 rounded border ${getStatusColor(record.status)}`}>
                       {record.status}
@@ -257,7 +257,7 @@ export default function Home() {
                 {record.status === 'completed' && record.analysis && (
                   <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
                     <p className="text-sm text-blue-900">
-                      <strong className="font-semibold">🤖 AI Analysis:</strong>{' '}
+                      <strong className="font-semibold">AI Analysis:</strong>{' '}
                       {record.analysis.summary || JSON.stringify(record.analysis)}
                     </p>
                   </div>
@@ -266,7 +266,7 @@ export default function Home() {
                 {record.status === 'failed' && record.error_message && (
                   <div className="bg-red-50 p-4 rounded-lg border border-red-200">
                     <p className="text-sm text-red-900">
-                      <strong className="font-semibold">❌ Error:</strong>{' '}
+                      <strong className="font-semibold">Error:</strong>{' '}
                       {record.error_message}
                     </p>
                   </div>

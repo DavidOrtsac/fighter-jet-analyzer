@@ -53,11 +53,11 @@ export async function POST(request: Request) {
 
       console.log('Sending BATCH request to OpenAI for all posts...')
 
-      // ONE API CALL FOR ALL POSTS with retry logic! 🚀
+      // ONE API CALL FOR ALL POSTS with retry logic
       const completion = await retryWithBackoff(
         async () => {
           return await openai.chat.completions.create({
-            model: 'gpt-3.5-turbo',
+            model: 'gpt-4o-mini',
             messages: [
           {
             role: 'system',
@@ -179,7 +179,7 @@ Example format:
 
     } catch (error: any) {
       const errorMsg = `OpenAI batch analysis failed after 3 retries: ${error.message}`
-      console.error(`✗ ${errorMsg}`)
+      console.error(errorMsg)
 
       // Mark all as failed
       await supabase
