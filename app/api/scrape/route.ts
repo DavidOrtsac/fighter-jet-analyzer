@@ -20,8 +20,16 @@ export async function POST(request: Request) {
         const data = await retryWithBackoff(
           async () => {
             const redditUrl = `https://www.reddit.com/r/${subreddit}/hot.json?limit=10`
-            const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(redditUrl)}`
-            const response = await fetch(proxyUrl)
+            const isProduction = process.env.VERCEL === '1'
+            const finalUrl = isProduction 
+              ? `https://api.allorigins.win/raw?url=${encodeURIComponent(redditUrl)}`
+              : redditUrl
+
+            const response = await fetch(finalUrl, {
+              headers: isProduction ? {} : {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+              }
+            })
 
             if (!response.ok) {
               const error: any = new Error(`Reddit API returned ${response.status}`)
